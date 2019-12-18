@@ -1,6 +1,6 @@
 from xml.dom.minidom import parse
 
-doc = parse('02.xml')
+doc = parse('01.xml')
 
 root = doc.documentElement
 
@@ -8,7 +8,7 @@ textboxs = root.getElementsByTagName('textbox')
 textcontent=''
 bVerticalBegin = False
 
-outfile = open('02.txt', 'w')
+outfile = open('01.txt', 'w')
 
 for textbox in textboxs:
 	textlines = textbox.getElementsByTagName('textline')
@@ -24,7 +24,10 @@ for textbox in textboxs:
 					textcontent = textcontent + text.childNodes[0].data
 					#print(type(text))
 					#print(textcontent)
-	#print(textcontent)
+			#处理换行，如果textline里面的倒数第二个text是句号，倒数第一个是换行，那么就是一个换行
+			if((texts[-1].childNodes[0].data == '\n') and (texts[-2].childNodes[0].data == '。')):
+				textcontent = textcontent +'\n'
+	    #print(textcontent)
 	outfile.write(textcontent)
 	outfile.write('\n')
 	if bVerticalBegin:
